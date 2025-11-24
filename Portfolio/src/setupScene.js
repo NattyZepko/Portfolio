@@ -15,7 +15,7 @@ export function setupScene() {
     camera.position.setZ(30);
 
     const textureLoader = new THREE.TextureLoader();
-    const donutTexture = textureLoader.load('/donut texture map.jpg');
+    const donutTexture = textureLoader.load('donut texture map.jpg');
     donutTexture.wrapS = THREE.RepeatWrapping; donutTexture.wrapT = THREE.RepeatWrapping; donutTexture.anisotropy = 8;
     const torus = new THREE.Mesh(
         new THREE.TorusGeometry(10, 3, 16, 100),

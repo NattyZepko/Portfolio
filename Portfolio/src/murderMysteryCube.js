@@ -10,7 +10,7 @@ export function registerMurderMystery(chapters, scene, textureLoader, camera, ta
         return;
     }
     const panelIsLeft = (chapterIndex % 2 === 0);
-    const mmTex = textureLoader.load('/MurderMystery.jpg', () => {
+    const mmTex = textureLoader.load('MurderMystery.jpg', () => {
         console.log('[MurderMystery] texture loaded');
     }, undefined, (err) => {
         console.error('[MurderMystery] texture failed', err);

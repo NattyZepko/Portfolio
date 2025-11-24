@@ -8,7 +8,7 @@ export function registerMastermindCube(chapters, scene, textureLoader, camera, t
         console.warn('[Mastermind Cube] target chapter out of range, skipping');
         return;
     }
-    const tex = textureLoader.load('/mastermind.jpg', () => {
+    const tex = textureLoader.load('mastermind.jpg', () => {
         console.log('[Mastermind Cube] texture loaded');
     }, undefined, (err) => {
         console.error('[Mastermind Cube] texture failed', err);

@@ -8,7 +8,7 @@ export function registerVrTrainingCube(chapters, scene, textureLoader, camera, t
         console.warn('[VRTraining Cube] target chapter out of range, skipping');
         return;
     }
-    const tex = textureLoader.load('/VRTraining.png', () => {
+    const tex = textureLoader.load('VRTraining.png', () => {
         console.log('[VRTraining Cube] texture loaded');
     }, undefined, (err) => {
         console.error('[VRTraining Cube] texture failed', err);

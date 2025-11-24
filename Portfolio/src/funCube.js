@@ -8,7 +8,7 @@ export function registerFunCube(chapters, scene, textureLoader, camera, targetCh
         console.warn('[Fun Cube] target chapter out of range, skipping');
         return;
     }
-    const tex = textureLoader.load('/fun.jpg', () => {
+    const tex = textureLoader.load('fun.jpg', () => {
         console.log('[Fun Cube] texture loaded');
     }, undefined, (err) => {
         console.error('[Fun Cube] texture failed', err);

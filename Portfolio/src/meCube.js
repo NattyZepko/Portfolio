@@ -8,7 +8,7 @@ export function registerMeCube(chapters, scene, textureLoader, camera, targetCha
         console.warn('[Me Cube] target chapter out of range, skipping');
         return;
     }
-    const tex = textureLoader.load('/me.jpg', () => {
+    const tex = textureLoader.load('me.jpg', () => {
         console.log('[Me Cube] texture loaded');
     }, undefined, (err) => {
         console.error('[Me Cube] texture failed', err);

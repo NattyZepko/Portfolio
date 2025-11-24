@@ -9,7 +9,7 @@ export function registerTcgCube(chapters, scene, textureLoader, camera, targetCh
         console.warn('[TCG Cube] target chapter out of range, skipping');
         return;
     }
-    const tex = textureLoader.load('/TCG.png', () => {
+    const tex = textureLoader.load('TCG.png', () => {
         console.log('[TCG Cube] texture loaded');
     }, undefined, (err) => {
         console.error('[TCG Cube] texture failed', err);
