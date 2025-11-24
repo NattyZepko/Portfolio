@@ -6,9 +6,61 @@
     <link rel="icon" type="image/svg+xml" href="./lightbulb.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Natty Zepko's Portfolio</title>
+    <!-- Inline critical styles to avoid white flash -->
+    <style>
+        body {
+            background: #0e101a;
+            color: #fff;
+        }
+
+        #loading {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: .75rem;
+            font-family: system-ui, Avenir, Helvetica, Arial;
+            background: #0e101a;
+            z-index: 9999;
+            transition: opacity .4s ease;
+        }
+
+        #loading.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #loading .spinner {
+            width: 54px;
+            height: 54px;
+            border: 5px solid rgba(255, 255, 255, .15);
+            border-top-color: #ffc94d;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #loading small {
+            opacity: .65;
+            letter-spacing: .5px;
+            font-size: .75rem;
+        }
+    </style>
 </head>
 
 <body>
+    <div id="loading">
+        <div class="spinner"></div>
+        <div>Loading portfolio…</div>
+        <small>Initializing 3D scene</small>
+    </div>
     <canvas id="background"></canvas>
     <main id="content"></main>
     <script type="module" src="./src/main.js"></script>

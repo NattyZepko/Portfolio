@@ -4,12 +4,6 @@ import { initProfileCube, updateProfileCube } from './profileCube.js';
 import { state, initScroll, computeCameraScrollBounds } from './scroll.js';
 import { loadMarkdown } from './markdown.js';
 import { registerChapterObjects } from './chapterObjects.js';
-import { registerMurderMystery } from './murderMysteryCube.js';
-import { registerTcgCube } from './tcgCube.js';
-import { registerVrTrainingCube } from './vrTrainingCube.js';
-import { registerMastermindCube } from './mastermindCube.js';
-import { registerFunCube } from './funCube.js';
-import { registerMeCube } from './meCube.js';
 import { buildTimelineCurve, attachTimelineListeners } from './timeline.js';
 import { startAnimation } from './animation.js';
 import { objectManager } from './objectManager.js';
@@ -17,18 +11,28 @@ import { objectManager } from './objectManager.js';
 const ctx = setupScene();
 const profileCube = initProfileCube(ctx.scene, ctx.textureLoader);
 initScroll(state, ctx.camera);
-startAnimation({ ...ctx, profileCube, state, updateProfileCube, objectManager }); // ctx now includes tetra
+startAnimation({ ...ctx, profileCube, state, updateProfileCube, objectManager });
 
-loadMarkdown({ state, torus: ctx.torus, tetra: ctx.tetra }).then(chapters => {
+loadMarkdown({ state, torus: ctx.torus, tetra: ctx.tetra }).then(async chapters => {
     registerChapterObjects(chapters, ctx.scene);
-    registerMurderMystery(chapters, ctx.scene, ctx.textureLoader, ctx.camera);
-    registerTcgCube(chapters, ctx.scene, ctx.textureLoader, ctx.camera);
-    registerVrTrainingCube(chapters, ctx.scene, ctx.textureLoader, ctx.camera);
-    registerMastermindCube(chapters, ctx.scene, ctx.textureLoader, ctx.camera);
-    registerFunCube(chapters, ctx.scene, ctx.textureLoader, ctx.camera);
-    registerMeCube(chapters, ctx.scene, ctx.textureLoader, ctx.camera);
+    // Dynamic imports to shrink initial bundle
+    const [murderMod, tcgMod, vrMod, mastermindMod, funMod, meMod] = await Promise.all([
+        import('./murderMysteryCube.js'),
+        import('./tcgCube.js'),
+        import('./vrTrainingCube.js'),
+        import('./mastermindCube.js'),
+        import('./funCube.js'),
+        import('./meCube.js')
+    ]);
+    murderMod.registerMurderMystery(chapters, ctx.scene, ctx.textureLoader, ctx.camera);
+    tcgMod.registerTcgCube(chapters, ctx.scene, ctx.textureLoader, ctx.camera);
+    vrMod.registerVrTrainingCube(chapters, ctx.scene, ctx.textureLoader, ctx.camera);
+    mastermindMod.registerMastermindCube(chapters, ctx.scene, ctx.textureLoader, ctx.camera);
+    funMod.registerFunCube(chapters, ctx.scene, ctx.textureLoader, ctx.camera);
+    meMod.registerMeCube(chapters, ctx.scene, ctx.textureLoader, ctx.camera);
     state.chapterDomRefs = Array.from(document.querySelectorAll('.chapter'));
     computeCameraScrollBounds(state);
     buildTimelineCurve(state.chapterDomRefs);
     attachTimelineListeners(state, buildTimelineCurve);
+    const loader = document.getElementById('loading'); if (loader) loader.classList.add('fade-out');
 });

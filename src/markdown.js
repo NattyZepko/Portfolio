@@ -2,8 +2,20 @@ import { marked } from 'marked';
 import { state } from './scroll.js';
 
 export async function loadMarkdown({ state, torus, tetra }) {
-    const res = await fetch('./aboutme.md');
-    const md = await res.text();
+    let md = '';
+    try {
+        const res = await fetch('./aboutme.md');
+        if (!res.ok) throw new Error(`aboutme.md fetch failed: ${res.status}`);
+        md = await res.text();
+    } catch (err) {
+        console.error('[Markdown] Failed to load aboutme.md', err);
+        const content = document.getElementById('content');
+        content.innerHTML = `<section class="chapter chapter-first" data-chapter="0"><h2><span class="chapter-number">01</span> Welcome</h2><p>Content failed to load. Please retry or check your connection.</p></section>`;
+        state.chapterDomRefs = Array.from(document.querySelectorAll('.chapter'));
+        if (typeof state.activeChapter !== 'number') state.activeChapter = 0;
+        const loader = document.getElementById('loading'); if (loader) loader.classList.add('fade-out');
+        return [];
+    }
     const content = document.getElementById('content');
     const headerRegex = /^#\s.+$/;
     const lines = md.split(/\r?\n/);

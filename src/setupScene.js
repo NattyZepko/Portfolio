@@ -11,7 +11,8 @@ export function setupScene() {
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('background'), antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    // Cap pixel ratio to avoid huge buffers on mobile devices
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.0;
     camera.position.setZ(30);
@@ -36,9 +37,10 @@ export function setupScene() {
     scene.add(tetra);
 
     const renderPass = new RenderPass(scene, camera);
-    const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.1, 0.75, 0.15);
+    const isMobile = window.innerWidth < 760;
+    const bloomPass = !isMobile ? new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.1, 0.75, 0.15) : null;
     const composer = new EffectComposer(renderer);
-    composer.addPass(renderPass); composer.addPass(bloomPass);
+    composer.addPass(renderPass); if (bloomPass) composer.addPass(bloomPass);
 
     const pointLight = new THREE.PointLight(0xffffff); pointLight.position.set(10, 10, 10);
     const ambientLight = new THREE.AmbientLight(0xffffff); ambientLight.position.set(5, 5, 15);
@@ -57,7 +59,8 @@ export function setupScene() {
         const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(120));
         star.position.set(x, y, z); scene.add(star); stars.push(star);
     }
-    Array(240).fill().forEach(addStar);
+    const starTarget = isMobile ? 120 : 240;
+    Array(starTarget).fill().forEach(addStar);
     const bgTexture = textureLoader.load(
         spaceImg,
         undefined,
@@ -68,7 +71,17 @@ export function setupScene() {
 
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight); composer.setSize(window.innerWidth, window.innerHeight); bloomPass.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(window.innerWidth, window.innerHeight); composer.setSize(window.innerWidth, window.innerHeight); if (bloomPass) bloomPass.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // WebGL context loss handler
+    renderer.domElement.addEventListener('webglcontextlost', (e) => {
+        e.preventDefault();
+        console.warn('[WebGL] Context lost');
+        const loader = document.getElementById('loading'); if (loader) loader.innerHTML = '<div>WebGL context lost. Please refresh.</div>';
+    });
+    renderer.domElement.addEventListener('webglcontextrestored', () => {
+        console.info('[WebGL] Context restored');
     });
 
     return { scene, camera, renderer, composer, bloomPass, torus, tetra, textureLoader, controls, stars };
