@@ -41,7 +41,7 @@ An AI‑powered interactive detective game where every playthrough creates a com
 
 * **Languages:** JavaScript, TypeScript, HTML
 * **Tech Stack:** Node.js, Express, @google/gemini‑generative‑ai
-* **Architecture:** Modular prompt/scene flow, stateful story management
+* **Architecture:** Modular prompt/scene flows, stateful story management
 
 👉 [View the repository](https://github.com/NattyZepko/AI-Murder-Mystery)
 
