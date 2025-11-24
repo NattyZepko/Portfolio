@@ -6,13 +6,7 @@
     <link rel="icon" type="image/svg+xml" href="./lightbulb.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Natty Zepko's Portfolio</title>
-    <!-- Inline critical styles to avoid white flash -->
     <style>
-        body {
-            background: #0e101a;
-            color: #fff;
-        }
-
         #loading {
             position: fixed;
             inset: 0;
@@ -20,11 +14,12 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            gap: .75rem;
+            gap: 1rem;
             font-family: system-ui, Avenir, Helvetica, Arial;
-            background: #0e101a;
+            background: rgba(14, 16, 26, 0.55);
+            backdrop-filter: blur(3px);
             z-index: 9999;
-            transition: opacity .4s ease;
+            transition: opacity .35s ease;
         }
 
         #loading.fade-out {
@@ -32,34 +27,57 @@
             pointer-events: none;
         }
 
-        #loading .spinner {
-            width: 54px;
-            height: 54px;
-            border: 5px solid rgba(255, 255, 255, .15);
-            border-top-color: #ffc94d;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        #loading-text {
+            font-size: .9rem;
+            letter-spacing: .5px;
+            opacity: .85;
+            text-align: center;
+            max-width: 70ch;
         }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+        #loadingbar-wrap {
+            width: 320px;
+            max-width: 70vw;
+            height: 14px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15), 0 4px 14px -4px rgba(0, 0, 0, 0.6);
+        }
+
+        #loadingbar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ffc94d, #ffb300);
+            transition: width .4s cubic-bezier(.22, .61, .36, 1);
         }
 
         #loading small {
-            opacity: .65;
-            letter-spacing: .5px;
-            font-size: .75rem;
+            opacity: .55;
+            font-size: .7rem;
+            letter-spacing: .35px;
         }
     </style>
+    <script>
+        window.updateLoading = function (step, ratio) {
+            try {
+                const textEl = document.getElementById('loading-text');
+                const bar = document.getElementById('loadingbar');
+                if (textEl) textEl.textContent = step;
+                if (bar && typeof ratio === 'number') bar.style.width = Math.min(Math.max(ratio, 0), 1) * 100 + '%';
+                if (ratio >= 1) { const l = document.getElementById('loading'); if (l) l.classList.add('fade-out'); }
+            } catch (e) { console.warn('updateLoading failed', e); }
+        };
+    </script>
 </head>
 
 <body>
     <div id="loading">
-        <div class="spinner"></div>
-        <div>Loading portfolio…</div>
-        <small>Initializing 3D scene</small>
+        <div id="loadingbar-wrap">
+            <div id="loadingbar"></div>
+        </div>
+        <div id="loading-text">Starting…</div>
+        <small>Preparing assets</small>
     </div>
     <canvas id="background"></canvas>
     <main id="content"></main>

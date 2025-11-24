@@ -2,6 +2,7 @@ import { marked } from 'marked';
 import { state } from './scroll.js';
 
 export async function loadMarkdown({ state, torus, tetra }) {
+    window.updateLoading && window.updateLoading('Fetching markdown…', 0.45);
     let md = '';
     try {
         const res = await fetch('./aboutme.md');
@@ -16,6 +17,7 @@ export async function loadMarkdown({ state, torus, tetra }) {
         const loader = document.getElementById('loading'); if (loader) loader.classList.add('fade-out');
         return [];
     }
+    window.updateLoading && window.updateLoading('Parsing markdown…', 0.55);
     const content = document.getElementById('content');
     const headerRegex = /^#\s.+$/;
     const lines = md.split(/\r?\n/);
@@ -57,5 +59,6 @@ export async function loadMarkdown({ state, torus, tetra }) {
     }, { threshold: 0.35 });
     chaptersEls.forEach(el => observer.observe(el));
     if (chaptersEls.length) setActiveChapter(0);
+    window.updateLoading && window.updateLoading('Markdown ready', 0.65);
     return chapters;
 }

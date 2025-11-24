@@ -18,7 +18,8 @@ export function setupScene() {
     camera.position.setZ(30);
 
     const textureLoader = new THREE.TextureLoader();
-    const donutTexture = textureLoader.load(donutTex);
+    window.updateLoading && window.updateLoading('Loading donut texture…', 0.05);
+    const donutTexture = textureLoader.load(donutTex, () => { window.updateLoading && window.updateLoading('Donut texture ready', 0.15); });
     donutTexture.wrapS = THREE.RepeatWrapping; donutTexture.wrapT = THREE.RepeatWrapping; donutTexture.anisotropy = 8;
     const torus = new THREE.Mesh(
         new THREE.TorusGeometry(10, 3, 16, 100),
@@ -61,11 +62,12 @@ export function setupScene() {
     }
     const starTarget = isMobile ? 120 : 240;
     Array(starTarget).fill().forEach(addStar);
+    window.updateLoading && window.updateLoading('Loading background…', 0.2);
     const bgTexture = textureLoader.load(
         spaceImg,
+        () => { window.updateLoading && window.updateLoading('Background ready', 0.4); },
         undefined,
-        undefined,
-        (err) => console.warn('[Scene] Background texture failed to load', err)
+        (err) => { console.warn('[Scene] Background texture failed to load', err); window.updateLoading && window.updateLoading('Background failed (continuing)', 0.4); }
     );
     scene.background = bgTexture;
 
