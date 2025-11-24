@@ -58,7 +58,13 @@ export function setupScene() {
         star.position.set(x, y, z); scene.add(star); stars.push(star);
     }
     Array(240).fill().forEach(addStar);
-    scene.background = new THREE.TextureLoader().load(spaceImg);
+    const bgTexture = textureLoader.load(
+        spaceImg,
+        undefined,
+        undefined,
+        (err) => console.warn('[Scene] Background texture failed to load', err)
+    );
+    scene.background = bgTexture;
 
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix();
