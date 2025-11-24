@@ -27,7 +27,7 @@ export function setupScene() {
     );
     scene.add(torus);
 
-    // Late-appearance tetrahedron (same texture as donut)
+    // Late-appearance tetrahedron (same texture as the donut)
     const tetra = new THREE.Mesh(
         new THREE.TetrahedronGeometry(8, 0),
         new THREE.MeshStandardMaterial({ map: donutTexture, roughness: 0.6, metalness: 0.2, emissive: new THREE.Color(0x111111), emissiveIntensity: 0.6, transparent: true, opacity: 0 })
