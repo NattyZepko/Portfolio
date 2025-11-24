@@ -127,7 +127,6 @@ A Python implementation of the logic game "Mastermind" featuring both playable a
 * I love physics. Like, astrophysics. Dark holes, Gravitational Lensing, and stuff like that.
 * I play Genshin Impact, Minecraft, Danganronpa, UNS4, and other games.
 * I collect weird trinkets, physics toys, and puzzle gadgets.
-* I really like kids (in the wholesome, fun‑uncle way).
 * And animals. All of them. Cats, dogs, moose, goldfish...
 
 ---
