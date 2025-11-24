@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { objectManager } from './objectManager.js';
+import meImg from '../me.jpg';
 
 // Me chapter cube (chapter #8 -> index 7), forced RIGHT side.
 export function registerMeCube(chapters, scene, textureLoader, camera, targetChapterNumber = 8) {
@@ -8,7 +9,7 @@ export function registerMeCube(chapters, scene, textureLoader, camera, targetCha
         console.warn('[Me Cube] target chapter out of range, skipping');
         return;
     }
-    const tex = textureLoader.load('me.jpg', () => {
+    const tex = textureLoader.load(meImg, () => {
         console.log('[Me Cube] texture loaded');
     }, undefined, (err) => {
         console.error('[Me Cube] texture failed', err);

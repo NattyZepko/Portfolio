@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { objectManager } from './objectManager.js';
+import tcgImg from '../TCG.png';
 
 // Displays the Genshin TCG image as a cube only during chapter #4.
 // Behavior mirrors the murder mystery cube: mid-range visibility band + fades.
@@ -9,7 +10,7 @@ export function registerTcgCube(chapters, scene, textureLoader, camera, targetCh
         console.warn('[TCG Cube] target chapter out of range, skipping');
         return;
     }
-    const tex = textureLoader.load('TCG.png', () => {
+    const tex = textureLoader.load(tcgImg, () => {
         console.log('[TCG Cube] texture loaded');
     }, undefined, (err) => {
         console.error('[TCG Cube] texture failed', err);

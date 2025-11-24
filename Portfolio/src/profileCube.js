@@ -1,7 +1,8 @@
 import * as THREE from 'three';
+import myPicture from '../myPicture.jpg';
 
 export function initProfileCube(scene, textureLoader) {
-    const tex = textureLoader.load('myPicture.jpg', undefined, undefined, () => console.warn('Profile cube texture failed'));
+    const tex = textureLoader.load(myPicture, undefined, undefined, () => console.warn('Profile cube texture failed'));
     const mat = new THREE.MeshStandardMaterial({ map: tex, color: 0xffffff, roughness: 0.6, metalness: 0.0, emissive: 0x000000, emissiveIntensity: 0.0 });
     const cube = new THREE.Mesh(new THREE.BoxGeometry(10, 10, 10), mat);
     cube.position.set(26, 5, 14);

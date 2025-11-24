@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { objectManager } from './objectManager.js';
+import mmImg from '../MurderMystery.jpg';
 
 // Shows a textured cube during a specific chapter (default: human chapter #3 -> index 2)
 // Fades in/out based on how far the chapter has scrolled through the viewport.
@@ -10,7 +11,7 @@ export function registerMurderMystery(chapters, scene, textureLoader, camera, ta
         return;
     }
     const panelIsLeft = (chapterIndex % 2 === 0);
-    const mmTex = textureLoader.load('MurderMystery.jpg', () => {
+    const mmTex = textureLoader.load(mmImg, () => {
         console.log('[MurderMystery] texture loaded');
     }, undefined, (err) => {
         console.error('[MurderMystery] texture failed', err);

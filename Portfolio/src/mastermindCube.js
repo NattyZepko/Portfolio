@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { objectManager } from './objectManager.js';
+import mastermindImg from '../mastermind.jpg';
 
 // Mastermind project cube (chapter #6 -> index 5), forced LEFT side display.
 export function registerMastermindCube(chapters, scene, textureLoader, camera, targetChapterNumber = 6) {
@@ -8,7 +9,7 @@ export function registerMastermindCube(chapters, scene, textureLoader, camera, t
         console.warn('[Mastermind Cube] target chapter out of range, skipping');
         return;
     }
-    const tex = textureLoader.load('mastermind.jpg', () => {
+    const tex = textureLoader.load(mastermindImg, () => {
         console.log('[Mastermind Cube] texture loaded');
     }, undefined, (err) => {
         console.error('[Mastermind Cube] texture failed', err);

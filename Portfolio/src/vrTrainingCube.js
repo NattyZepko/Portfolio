@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { objectManager } from './objectManager.js';
+import vrImg from '../VRTraining.png';
 
 // VR Training project cube (chapter #5 -> index 4), forced RIGHT side display.
 export function registerVrTrainingCube(chapters, scene, textureLoader, camera, targetChapterNumber = 5) {
@@ -8,7 +9,7 @@ export function registerVrTrainingCube(chapters, scene, textureLoader, camera, t
         console.warn('[VRTraining Cube] target chapter out of range, skipping');
         return;
     }
-    const tex = textureLoader.load('VRTraining.png', () => {
+    const tex = textureLoader.load(vrImg, () => {
         console.log('[VRTraining Cube] texture loaded');
     }, undefined, (err) => {
         console.error('[VRTraining Cube] texture failed', err);

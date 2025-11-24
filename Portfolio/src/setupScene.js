@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import spaceImg from '../space.jpg';
+import donutTex from '../donut texture map.jpg';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
@@ -15,7 +17,7 @@ export function setupScene() {
     camera.position.setZ(30);
 
     const textureLoader = new THREE.TextureLoader();
-    const donutTexture = textureLoader.load('donut texture map.jpg');
+    const donutTexture = textureLoader.load(donutTex);
     donutTexture.wrapS = THREE.RepeatWrapping; donutTexture.wrapT = THREE.RepeatWrapping; donutTexture.anisotropy = 8;
     const torus = new THREE.Mesh(
         new THREE.TorusGeometry(10, 3, 16, 100),
@@ -56,7 +58,7 @@ export function setupScene() {
         star.position.set(x, y, z); scene.add(star); stars.push(star);
     }
     Array(240).fill().forEach(addStar);
-    scene.background = new THREE.TextureLoader().load('space.jpg');
+    scene.background = new THREE.TextureLoader().load(spaceImg);
 
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix();
